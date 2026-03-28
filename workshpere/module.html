@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modules — WorkSphere</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0b0d14;
+    color: #e8eaf0;
+    min-height: 100vh;
+    padding: 60px 24px 80px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 10% 0%, rgba(79,142,247,0.11) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 45% at 90% 5%, rgba(167,139,250,0.09) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 50% at 50% 100%, rgba(52,211,153,0.06) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  /* ── WRAPPER ── */
+  .wrapper {
+    position: relative;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+  }
+
+  .logo-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #4f8ef7;
+    box-shadow: 0 0 12px #4f8ef7;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  .user-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #111520;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 100px;
+    padding: 6px 16px 6px 8px;
+  }
+
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f8ef7, #a78bfa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .user-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #c9ccd4;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    margin-bottom: 48px;
+    animation: fadeDown 0.5s ease both;
+  }
+
+  .page-header .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(79,142,247,0.08);
+    border: 1px solid rgba(79,142,247,0.2);
+    color: #4f8ef7;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    margin-bottom: 20px;
+  }
+
+  .page-header .eyebrow::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #4f8ef7;
+    box-shadow: 0 0 6px #4f8ef7;
+  }
+
+  .page-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .page-header p {
+    font-size: 0.95rem;
+    color: #6b7280;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+  }
+
+  /* card sizes */
+  .card { grid-column: span 4; }
+  .card.wide { grid-column: span 6; }
+  .card.full { grid-column: span 12; }
+
+  @media (max-width: 900px) {
+    .card, .card.wide { grid-column: span 6; }
+  }
+  @media (max-width: 580px) {
+    .card, .card.wide, .card.full { grid-column: span 12; }
+  }
+
+  /* ── MODULE CARD ── */
+  .module-card {
+    background: #111520;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 32px 28px;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+  }
+
+  .module-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.3);
+  }
+
+  /* per-card accent colours */
+  .module-card.blue  { --c: #4f8ef7; --cr: rgba(79,142,247,0.08); }
+  .module-card.purple { --c: #a78bfa; --cr: rgba(167,139,250,0.08); }
+  .module-card.green  { --c: #34d399; --cr: rgba(52,211,153,0.08); }
+  .module-card.orange { --c: #fb923c; --cr: rgba(251,146,60,0.08); }
+  .module-card.pink   { --c: #f472b6; --cr: rgba(244,114,182,0.08); }
+
+  .module-card:hover { border-color: var(--c, #4f8ef7); }
+  .module-card:hover::before { background: var(--cr); opacity: 1; }
+
+  /* glow blob top-right */
+  .module-card .blob {
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--c, #4f8ef7), transparent 70%);
+    opacity: 0.08;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .module-card:hover .blob { opacity: 0.18; }
+
+  /* icon */
+  .mod-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    background: var(--cr, rgba(79,142,247,0.08));
+    border: 1px solid color-mix(in srgb, var(--c, #4f8ef7) 20%, transparent);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .mod-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+
+  .mod-desc {
+    font-size: 0.84rem;
+    color: #6b7280;
+    line-height: 1.7;
+    font-weight: 300;
+    position: relative;
+    flex: 1;
+  }
+
+  .mod-arrow {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--c, #4f8ef7);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.2s, transform 0.2s;
+    position: relative;
+  }
+
+  .module-card:hover .mod-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* stagger delays */
+  .module-card:nth-child(1) { animation-delay: 0.05s; }
+  .module-card:nth-child(2) { animation-delay: 0.12s; }
+  .module-card:nth-child(3) { animation-delay: 0.19s; }
+  .module-card:nth-child(4) { animation-delay: 0.26s; }
+  .module-card:nth-child(5) { animation-delay: 0.33s; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="index.html" class="logo">
+      <div class="logo-dot"></div>
+      <span class="logo-text">WorkSphere</span>
+    </a>
+    <div class="user-pill">
+      <div class="avatar">JD</div>
+      <span class="user-name">John Doe</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="eyebrow">5 modules</div>
+    <h1>Choose your workspace</h1>
+    <p>Select a module to get started. Each one is powered by AI and built for your team.</p>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <!-- Dashboard -->
+    <div class="card wide">
+      <a href="#" class="module-card blue" onclick="return false;">
+        <div class="blob"></div>
+        <div class="mod-icon">🧭</div>
+        <div class="mod-title">Dashboard — Employee &amp; Stress Insights</div>
+        <div class="mod-desc">Central workspace that visualizes employee activity including work hours, tasks completed, meetings attended, and leave status. Provides workload prioritization and stress indicators to help managers balance work and prevent burnout.</div>
+        <div class="mod-arrow">Open module →</div>
+      </a>
+    </div>
+
+    <!-- Internal GPT -->
+    <div class="card wide">
+      <a href="#" class="module-card purple" onclick="return false;">
+        <div class="blob"></div>
+        <div class="mod-icon">🤖</div>
+        <div class="mod-title">Internal GPT — Secure Company AI</div>
+        <div class="mod-desc">Private AI assistant trained only on company documents, policies, emails, and announcements for secure Q&amp;A and knowledge retrieval. Automates reminders, notifications, document summarization, and smart email generation within the organization.</div>
+        <div class="mod-arrow">Open module →</div>
+      </a>
+    </div>
+
+    <!-- Meeting Intelligence -->
+    <div class="card">
+      <a href="#" class="module-card green" onclick="return false;">
+        <div class="blob"></div>
+        <div class="mod-icon">🎥</div>
+        <div class="mod-title">Meeting Intelligence</div>
+        <div class="mod-desc">Transforms meeting notes or recordings into summaries, decisions, action items, and productivity feedback. Analyzes participation, detects urgency and conflicts, and generates workload balance insights and meeting quality reports.</div>
+        <div class="mod-arrow">Open module →</div>
+      </a>
+    </div>
+
+    <!-- Task Manager -->
+    <div class="card">
+      <a href="#" class="module-card orange" onclick="return false;">
+        <div class="blob"></div>
+        <div class="mod-icon">✅</div>
+        <div class="mod-title">Personalized Task Manager</div>
+        <div class="mod-desc">AI-assisted task system that tracks pending, completed, and overdue work based on each employee's projects and deadlines. Provides daily/weekly analytics and helps prioritize tasks to improve productivity and time management.</div>
+        <div class="mod-arrow">Open module →</div>
+      </a>
+    </div>
+
+    <!-- Hiring Intelligence -->
+    <div class="card">
+      <a href="#" class="module-card pink" onclick="return false;">
+        <div class="blob"></div>
+        <div class="mod-icon">🧑‍💼</div>
+        <div class="mod-title">Hiring Intelligence</div>
+        <div class="mod-desc">Smart hiring dashboard to manage job announcements, candidate pipelines, resume screening, and interview scheduling. Offers real-time hiring status updates and streamlines communication between HR, managers, and applicants.</div>
+        <div class="mod-arrow">Open module →</div>
+      </a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
