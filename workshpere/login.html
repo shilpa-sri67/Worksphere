@@ -318,7 +318,8 @@
   </button>
 
   <p class="footer">
-    No account? <a href="#" onclick="toast('Sign up coming soon!'); return false;">Sign up free</a>
+    No account? 
+    <a href="sigup.html" id="signupLink">Sign up free</a>
   </p>
 </div>
 
@@ -330,7 +331,7 @@
     const pass  = document.getElementById('password').value;
     if (!email) { toast('Please enter your email.'); return; }
     if (!pass)  { toast('Please enter your password.'); return; }
-    toast('Signing you in… ✓');
+    window.location.href = "module.html";
   }
 
   function toast(msg) {

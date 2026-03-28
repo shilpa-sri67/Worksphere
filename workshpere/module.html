@@ -14,6 +14,7 @@
     color: #e8eaf0;
     min-height: 100vh;
     padding: 60px 24px 80px;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
   body::before {
@@ -25,6 +26,65 @@
       radial-gradient(ellipse 55% 45% at 90% 5%, rgba(167,139,250,0.09) 0%, transparent 50%),
       radial-gradient(ellipse 50% 50% at 50% 100%, rgba(52,211,153,0.06) 0%, transparent 55%);
     pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  /* Light mode styles */
+  body.light-mode {
+    background: #f5f7fb;
+    color: #111;
+  }
+
+  body.light-mode::before {
+    opacity: 0.3;
+  }
+
+  body.light-mode .topbar .logo-text,
+  body.light-mode .page-header h1,
+  body.light-mode .mod-title {
+    color: #111;
+  }
+
+  body.light-mode .module-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  body.light-mode .module-card .mod-desc {
+    color: #5a5e6e;
+  }
+
+  body.light-mode .user-pill {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  body.light-mode .user-name {
+    color: #1a1e2c;
+  }
+
+  body.light-mode .dropdown {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  body.light-mode .dropdown a {
+    color: #1a1e2c;
+  }
+
+  body.light-mode .dropdown a:hover {
+    background: #f0f2f8;
+  }
+
+  body.light-mode .page-header .eyebrow {
+    background: rgba(79,142,247,0.1);
+    border-color: rgba(79,142,247,0.3);
+  }
+
+  body.light-mode .module-card:hover {
+    border-color: #4f8ef7;
+    box-shadow: 0 20px 32px rgba(0,0,0,0.08);
   }
 
   /* ── WRAPPER ── */
@@ -62,6 +122,12 @@
     font-size: 1.2rem;
     color: #fff;
     letter-spacing: -0.02em;
+    transition: color 0.3s;
+  }
+
+  /* User Menu with Dropdown */
+  .user-menu {
+    position: relative;
   }
 
   .user-pill {
@@ -72,6 +138,13 @@
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 100px;
     padding: 6px 16px 6px 8px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .user-pill:hover {
+    background: #161b2e;
+    border-color: rgba(79,142,247,0.4);
   }
 
   .avatar {
@@ -90,6 +163,58 @@
     font-size: 0.82rem;
     font-weight: 500;
     color: #c9ccd4;
+    transition: color 0.3s;
+  }
+
+  /* Dropdown Menu */
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: #111520;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 8px 0;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+  }
+
+  .dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    color: #e8eaf0;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .dropdown a:hover {
+    background: rgba(79,142,247,0.12);
+  }
+
+  .dropdown hr {
+    margin: 6px 0;
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+  }
+
+  body.light-mode .dropdown hr {
+    background: rgba(0,0,0,0.08);
   }
 
   /* ── HEADER ── */
@@ -129,6 +254,7 @@
     letter-spacing: -0.03em;
     line-height: 1.1;
     margin-bottom: 10px;
+    transition: color 0.3s;
   }
 
   .page-header p {
@@ -165,7 +291,7 @@
     border-radius: 18px;
     padding: 32px 28px;
     cursor: pointer;
-    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s, background 0.3s;
     position: relative;
     overflow: hidden;
     animation: fadeUp 0.5s ease both;
@@ -236,6 +362,7 @@
     margin-bottom: 10px;
     letter-spacing: -0.01em;
     position: relative;
+    transition: color 0.3s;
   }
 
   .mod-desc {
@@ -245,6 +372,7 @@
     font-weight: 300;
     position: relative;
     flex: 1;
+    transition: color 0.3s;
   }
 
   .mod-arrow {
@@ -273,6 +401,35 @@
   .module-card:nth-child(4) { animation-delay: 0.26s; }
   .module-card:nth-child(5) { animation-delay: 0.33s; }
 
+  /* Toast Notification */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #161b2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    color: #e8eaf0;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  body.light-mode .toast {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
+    color: #1a1e2c;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-14px); }
@@ -283,20 +440,42 @@
     from { opacity: 0; transform: translateY(22px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  @media (max-width: 480px) {
+    .wrapper { padding: 0 8px; }
+    .module-card { padding: 24px 20px; }
+    .toast { white-space: normal; max-width: 90%; text-align: center; font-size: 0.8rem; }
+  }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- TOP BAR -->
+  <!-- TOP BAR with Profile Dropdown -->
   <div class="topbar">
     <a href="index.html" class="logo">
       <div class="logo-dot"></div>
       <span class="logo-text">WorkSphere</span>
     </a>
-    <div class="user-pill">
-      <div class="avatar">JD</div>
-      <span class="user-name">John Doe</span>
+    
+    <div class="user-menu">
+      <div class="user-pill" id="userPill">
+        <div class="avatar" id="userAvatar">JD</div>
+        <span class="user-name" id="userNameDisplay">John Doe</span>
+      </div>
+
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="profileBtn">
+          <span>👤</span> Profile
+        </a>
+        <a href="#" id="themeToggleBtn">
+          <span>🌙</span> Toggle Theme
+        </a>
+        <hr>
+        <a href="login.html" id="logoutBtn">
+          <span>🚪</span> Sign out
+        </a>
+      </div>
     </div>
   </div>
 
@@ -312,7 +491,7 @@
 
     <!-- Dashboard -->
     <div class="card wide">
-      <a href="#" class="module-card blue" onclick="return false;">
+      <a href="dashboard1.html" class="module-card blue">
         <div class="blob"></div>
         <div class="mod-icon">🧭</div>
         <div class="mod-title">Dashboard — Employee &amp; Stress Insights</div>
@@ -323,7 +502,7 @@
 
     <!-- Internal GPT -->
     <div class="card wide">
-      <a href="#" class="module-card purple" onclick="return false;">
+      <a href="internalgpt1.html" class="module-card purple">
         <div class="blob"></div>
         <div class="mod-icon">🤖</div>
         <div class="mod-title">Internal GPT — Secure Company AI</div>
@@ -334,7 +513,7 @@
 
     <!-- Meeting Intelligence -->
     <div class="card">
-      <a href="#" class="module-card green" onclick="return false;">
+      <a href="meeting.html" class="module-card green">
         <div class="blob"></div>
         <div class="mod-icon">🎥</div>
         <div class="mod-title">Meeting Intelligence</div>
@@ -345,7 +524,7 @@
 
     <!-- Task Manager -->
     <div class="card">
-      <a href="#" class="module-card orange" onclick="return false;">
+      <a href="task1.html" class="module-card orange">
         <div class="blob"></div>
         <div class="mod-icon">✅</div>
         <div class="mod-title">Personalized Task Manager</div>
@@ -354,9 +533,9 @@
       </a>
     </div>
 
-    <!-- Hiring Intelligence -->
+    <!-- Hiring Intelligence - DIRECT LINK to your hiring HTML file -->
     <div class="card">
-      <a href="#" class="module-card pink" onclick="return false;">
+      <a href="hiring-intelligence.html" class="module-card pink">
         <div class="blob"></div>
         <div class="mod-icon">🧑‍💼</div>
         <div class="mod-title">Hiring Intelligence</div>
@@ -367,5 +546,177 @@
 
   </div>
 </div>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+  // Toast notification helper
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toastEl');
+    t.textContent = msg;
+    if (isError) {
+      t.style.background = '#2a1a2a';
+      t.style.borderColor = 'rgba(255,80,80,0.3)';
+    } else {
+      t.style.background = '#161b2e';
+      t.style.borderColor = 'rgba(255,255,255,0.07)';
+      if (document.body.classList.contains('light-mode')) {
+        t.style.background = '#ffffff';
+        t.style.borderColor = 'rgba(0,0,0,0.1)';
+      }
+    }
+    t.classList.add('show');
+    setTimeout(() => {
+      t.classList.remove('show');
+      if (!document.body.classList.contains('light-mode')) {
+        t.style.background = '#161b2e';
+      } else {
+        t.style.background = '#ffffff';
+      }
+    }, 2800);
+  }
+
+  // Dropdown toggle
+  const userPill = document.getElementById('userPill');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  function toggleDropdown(e) {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  }
+
+  userPill.addEventListener('click', toggleDropdown);
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!userPill.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      dropdownMenu.classList.remove('show');
+    }
+  });
+
+  // Theme toggle functionality
+  function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    const isLightMode = document.body.classList.contains('light-mode');
+    const themeBtn = document.getElementById('themeToggleBtn');
+    if (isLightMode) {
+      themeBtn.innerHTML = '<span>☀️</span> Light Mode';
+      localStorage.setItem('worksphere_theme', 'light');
+      showToast('Light mode activated');
+    } else {
+      themeBtn.innerHTML = '<span>🌙</span> Toggle Theme';
+      localStorage.setItem('worksphere_theme', 'dark');
+      showToast('Dark mode restored');
+    }
+    updateToastStyle();
+  }
+
+  function updateToastStyle() {
+    const t = document.getElementById('toastEl');
+    if (document.body.classList.contains('light-mode')) {
+      t.style.background = '#ffffff';
+      t.style.borderColor = 'rgba(0,0,0,0.1)';
+      t.style.color = '#1a1e2c';
+    } else {
+      t.style.background = '#161b2e';
+      t.style.borderColor = 'rgba(255,255,255,0.07)';
+      t.style.color = '#e8eaf0';
+    }
+  }
+
+  // Profile button action
+  document.getElementById('profileBtn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const userName = document.getElementById('userNameDisplay').innerText;
+    showToast(`Profile: ${userName} · Email: john.doe@worksphere.com (demo)`);
+    dropdownMenu.classList.remove('show');
+  });
+
+  // Theme toggle button in dropdown
+  document.getElementById('themeToggleBtn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleTheme();
+    dropdownMenu.classList.remove('show');
+  });
+
+  // Load saved theme
+  function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('worksphere_theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-mode');
+      const themeBtn = document.getElementById('themeToggleBtn');
+      if (themeBtn) themeBtn.innerHTML = '<span>☀️</span> Light Mode';
+    } else {
+      const themeBtn = document.getElementById('themeToggleBtn');
+      if (themeBtn) themeBtn.innerHTML = '<span>🌙</span> Toggle Theme';
+    }
+    updateToastStyle();
+  }
+
+  // Load user data from localStorage (if coming from sign-in)
+  function loadUserData() {
+    const userData = localStorage.getItem('worksphere_user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (user.name) {
+          const userNameSpan = document.getElementById('userNameDisplay');
+          const avatarDiv = document.getElementById('userAvatar');
+          if (userNameSpan) userNameSpan.innerText = user.name.split(' ')[0] || user.name;
+          if (avatarDiv) {
+            const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            avatarDiv.innerText = initials || 'JD';
+          }
+        }
+      } catch(e) { console.warn('Failed to parse user data'); }
+    }
+  }
+
+  // Handle sign out
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('worksphere_user');
+      showToast('Signing out...');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 800);
+    });
+  }
+
+  // Handle any module cards that might have missing links (safety check)
+  const allModuleCards = document.querySelectorAll('.module-card');
+  allModuleCards.forEach(card => {
+    const href = card.getAttribute('href');
+    // If href is empty or '#', show toast message
+    if (!href || href === '#' || href === '') {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('This module is under development. Stay tuned!');
+      });
+    }
+    // Note: The hiring link has href="hiring-intelligence.html" so it will work normally
+  });
+
+  // Initialize
+  loadSavedTheme();
+  loadUserData();
+
+  // Optional: Update user pill with greeting
+  const userNameSpan = document.getElementById('userNameDisplay');
+  if (userNameSpan && userNameSpan.innerText === 'John Doe') {
+    const storedUser = localStorage.getItem('worksphere_user');
+    if (!storedUser) {
+      localStorage.setItem('worksphere_user', JSON.stringify({
+        name: 'John Doe',
+        email: 'john.doe@worksphere.com',
+        authMethod: 'email',
+        loggedInAt: new Date().toISOString()
+      }));
+    }
+    loadUserData();
+  }
+</script>
 </body>
 </html>
